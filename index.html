@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hàng Hiệu Việt</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1a1a1a',
+                        accent: '#4a90e2',
+                        'accent-hover': '#357abd',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="bg-gray-100 hidden md:block">
+            <div class="container mx-auto px-6 py-1 flex justify-between items-center">
+                <div class="relative group">
+    <button class="text-xs text-gray-600 hover:text-accent transition duration-300 flex items-center">
+        <span>Liên hệ</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+    <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 hidden group-hover:block z-10">
+        <a href="https://www.facebook.com/your-facebook-page" target="_blank" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <i class="fab fa-facebook mr-2" style="color: #1877F2;"></i>
+            Facebook
+        </a>
+        <a href="https://zalo.me/your-zalo-id" target="_blank" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <i class="fas fa-comment-alt mr-2" style="color: #0068ff;"></i>
+            Zalo
+        </a>
+        <a href="mailto:info@hanghieuviet.com" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <i class="fas fa-envelope mr-2" style="color: #777;"></i>
+            Email
+        </a>
+    </div>
+</div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-xs text-gray-600 hover:text-accent transition duration-300" data-lang="notifications">Thông báo</a>
+                    <a href="#" class="text-xs text-gray-600 hover:text-accent transition duration-300" data-lang="support">Hỗ trợ</a>
+                    <a href="https://anh101.github.io/HHV/login.html" class="text-xs text-gray-600 hover:text-accent transition duration-300" data-lang="login_register">Đăng nhập</a>
+                    <a href="https://anh101.github.io/HHV/register.html" class="text-xs text-gray-600 hover:text-accent transition duration-300" data-lang="login_register">Đăng ký</a>
+                    </div>
+            </div>
+        </div>
+        <div class="border-b">
+            <nav class="container mx-auto px-4 sm:px-6 py-2">
+                <div class="hidden md:flex items-center justify-center gap-8">
+                    <div class="flex-shrink-0">
+                        <a href="#" class="flex items-center">
+                    <img src="logoHHV.jpg" alt="Hàng Hiệu Việt Logo" class="h-12 w-auto">
+                </a>
+                    </div>
+                    <div class="w-full max-w-lg">
+                        <form class="w-full">
+                            <div class="relative">
+                                <input type="search" data-lang-placeholder="search_placeholder" placeholder="Tìm kiếm sản phẩm..." class="w-full px-5 py-2.5 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition">
+                                <button type="submit" class="absolute top-0 right-0 mt-1.5 mr-1.5 bg-accent hover:bg-accent-hover text-white font-bold p-2 rounded-full flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <a href="https://anh101.github.io/HHV/Cart.html" class="text-gray-600 hover:text-accent relative p-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    </svg>
+    <!-- <span class="absolute top-1 right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span> -->
+</a>
+                    </div>
+                </div>
+            
+                <div class="flex md:hidden items-center justify-between">
+                    <div class="flex-shrink-0">
+                        <a href="#" class="text-2xl font-bold text-primary">
+                            <link rel="icon" href="logoHHV.jpg" type="image/jpeg">
+                        </a>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="text-gray-600 hover:text-accent p-2 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-gray-600 hover:text-accent relative p-2 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            <span class="absolute top-0 right-0 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        </button>
+                        <button id="mobile-menu-button" class="text-gray-600 hover:text-accent p-2 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+            <div class="hidden md:flex container mx-auto px-6 py-2 justify-center items-center space-x-8">
+                <div class="relative" onmouseleave="hideMegaMenu()">
+                    <div class="text-gray-600 hover:text-accent font-medium transition duration-300 cursor-pointer" onmouseover="showMegaMenu()" data-lang="menu_collections">
+                        Ngành Hàng
+                    </div>
+                    <div id="level2" style="display: none; position: absolute; top: 10%; left: 50%; transform: translateX(-50%);">
+                        <div id="level2Container" class="menu-column"></div>
+                        <div id="level3" class="menu-column"></div>
+                        <div id="level4" class="menu-column"></div>
+                        <div id="brand-panel">
+                            <h3>Brand</h3>
+                            <div id="brand-image-column"></div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="text-gray-600 hover:text-accent font-medium transition duration-300" data-lang="menu_new_products">Sản phẩm mới</a>
+                <a href="#" class="text-gray-600 hover:text-accent font-medium transition duration-300" data-lang="menu_promotions">Khuyến mãi</a>
+                <a href="#" class="text-gray-600 hover:text-accent font-medium transition duration-300" data-lang="menu_business">Doanh nghiệp</a>
+                <a href="#" class="text-gray-600 hover:text-accent font-medium transition duration-300" data-lang="menu_promotions">Affiliate</a>
+                <a href="#" class="text-gray-600 hover:text-accent font-medium transition duration-300" data-lang="menu_koc">KOC/CTV</a>
+                <a href="#" class="text-gray-600 hover:text-accent font-medium transition duration-300" data-lang="menu_blog">Blog</a>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent hover:bg-gray-50" data-lang="menu_home_mobile">Trang Chủ</a>
+                <a href="#products" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent hover:bg-gray-50" data-lang="menu_products_mobile">Sản Phẩm</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent hover:bg-gray-50" data-lang="menu_collections_mobile">Ngành Hàng</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent hover:bg-gray-50 border-t mt-2 pt-2" data-lang="contact_link_mobile">Liên hệ</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="space-y-8">
+        <div>
+            <div id="mega-menu-wrapper">
+              <div id="category-column"></div>
+              <div id="content-panel">
+                  <div id="banner-container">
+                      <div class="banner-slider">
+                          <img src="https://via.placeholder.com/800x450/0d6efd/ffffff?text=Ưu+đãi+Đặc+biệt+Tháng+7" class="active" alt="Banner Ưu đãi">
+                          <img src="https://via.placeholder.com/800x450/198754/ffffff?text=Sản+Phẩm+Xanh+-+Sống+Khỏe" alt="Banner Sống Khỏe">
+                          <img src="https://via.placeholder.com/800x450/dc3545/ffffff?text=Hàng+Mới+Về+-+Đừng+Bỏ+Lỡ" alt="Banner Hàng Mới">
+                          <img src="https://via.placeholder.com/800x450/ffc107/000000?text=Khuyến+Mãi+Cuối+Tuần" alt="Banner Khuyến Mãi">
+                          <button class="slider-btn prev">❮</button>
+                          <button class="slider-btn next">❯</button>
+                      </div>
+                  </div>
+                  <div id="subcategory-container">
+                      <div id="level-3-column" class="subcategory-column"></div>
+                      <div id="level-4-column" class="subcategory-column"></div>
+                      <div id="brand-panel">
+                          <h3>Brand</h3>
+                          <div id="brand-image-column"></div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+
+        <section class="bg-white">
+            <div class="container mx-auto px-6 py-12">
+                <h2 class="text-3xl font-bold text-center text-primary mb-10" data-lang="brands_title">Nhà Cung Cấp Hàng Hiệu Việt</h2>
+                <div class="swiper brand-slider relative">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+1" alt="Brand 1"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+2" alt="Brand 2"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+3" alt="Brand 3"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+4" alt="Brand 4"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+5" alt="Brand 5"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+6" alt="Brand 6"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+7" alt="Brand 7"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+8" alt="Brand 8"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+9" alt="Brand 9"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+10" alt="Brand 10"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+11" alt="Brand 11"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+12" alt="Brand 12"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+13" alt="Brand 13"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+14" alt="Brand 14"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+15" alt="Brand 15"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+16" alt="Brand 16"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+17" alt="Brand 17"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+18" alt="Brand 18"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+19" alt="Brand 19"></div>
+                        <div class="swiper-slide"><img src="https://placehold.co/200x100/ffffff/cccccc?text=BRAND+20" alt="Brand 20"></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </section>
+
+<section class="bg-white">
+            <div class="container mx-auto px-4 py-8">
+                <div class="flex justify-between items-center flex-wrap gap-4 mb-6">
+                    <div class="flex items-center gap-2">
+                        <img src="https://cdn-icons-png.flaticon.com/512/991/991960.png" alt="Flash Icon" class="w-6 h-6">
+                        <h2 class="font-bold text-red-600 text-2xl">FLASH SALE GIẢM SỐC</h2>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-1.5 text-sm">
+                            <span class="font-medium text-gray-700">Kết thúc sau:</span>
+                            <div class="flex items-center gap-1.5">
+                                <div class="bg-black text-white px-2 py-1 rounded">01</div>
+                                <div class="font-bold text-gray-800">:</div>
+                                <div class="bg-black text-white px-2 py-1 rounded">20</div>
+                                <div class="font-bold text-gray-800">:</div>
+                                <div class="bg-black text-white px-2 py-1 rounded">59</div>
+                            </div>
+                        </div>
+                        <a href="/flash-sale" class="bg-red-600 text-white px-3 py-1.5 rounded-md text-sm hover:bg-red-700 transition-colors">Xem tất cả</a>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <a href="#" class="group block bg-white border border-gray-200 rounded-lg p-2.5 text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                        <img src="https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Váy Maxi Họa Tiết" class="w-full h-64 object-cover rounded-md mb-3">
+                        <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Váy Maxi Họa Tiết</h3>
+                        <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Thương hiệu: A</h3>
+                        <div class="flex justify-center items-baseline gap-2">
+                            <p class="text-base font-bold text-red-600">₫149.000</p>
+                            <p class="text-xs text-gray-500 line-through">₫300.000</p>
+                        </div>
+                        <button class="mt-3 w-full bg-red-600 text-white text-sm font-semibold py-2 rounded-md hover:bg-red-700 transition-colors">Mua ngay</button>
+                    </a>
+                    <a href="#" class="group block bg-white border border-gray-200 rounded-lg p-2.5 text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                        <img src="https://images.pexels.com/photos/2955375/pexels-photo-2955375.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Áo Sơ Mi Nam" class="w-full h-64 object-cover rounded-md mb-3">
+                        <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Áo Sơ Mi Nam</h3>
+                        <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Thương hiệu: B</h3>
+                        <div class="flex justify-center items-baseline gap-2">
+                            <p class="text-base font-bold text-red-600">₫199.000</p>
+                            <p class="text-xs text-gray-500 line-through">₫400.000</p>
+                        </div>
+                        <button class="mt-3 w-full bg-red-600 text-white text-sm font-semibold py-2 rounded-md hover:bg-red-700 transition-colors">Mua ngay</button>
+                    </a>
+                    <a href="#" class="group block bg-white border border-gray-200 rounded-lg p-2.5 text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                        <img src="https://images.pexels.com/photos/5612349/pexels-photo-5612349.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Serum Dưỡng Da" class="w-full h-64 object-cover rounded-md mb-3">
+                        <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Serum Dưỡng Da</h3>
+                         <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Thương hiệu: C</h3>
+                        <div class="flex justify-center items-baseline gap-2">
+                            <p class="text-base font-bold text-red-600">₫139.000</p>
+                            <p class="text-xs text-gray-500 line-through">₫280.000</p>
+                        </div>
+                        <button class="mt-3 w-full bg-red-600 text-white text-sm font-semibold py-2 rounded-md hover:bg-red-700 transition-colors">Mua ngay</button>
+                    </a>
+                    <a href="#" class="group block bg-white border border-gray-200 rounded-lg p-2.5 text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                        <img src="https://images.pexels.com/photos/4099343/pexels-photo-4099343.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Lọ Gốm Trang Trí" class="w-full h-64 object-cover rounded-md mb-3">
+                        <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Lọ Gốm Trang Trí</h3>
+                         <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Thương hiệu: D</h3>
+                        <div class="flex justify-center items-baseline gap-2">
+                            <p class="text-base font-bold text-red-600">₫299.000</p>
+                            <p class="text-xs text-gray-500 line-through">₫500.000</p>
+                        </div>
+                        <button class="mt-3 w-full bg-red-600 text-white text-sm font-semibold py-2 rounded-md hover:bg-red-700 transition-colors">Mua ngay</button>
+                    </a>
+                    <a href="#" class="group block bg-white border border-gray-200 rounded-lg p-2.5 text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                        <img src="https://images.pexels.com/photos/157888/fashion-glasses-go-pro-female-157888.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Túi Xách Thủ Công" class="w-full h-64 object-cover rounded-md mb-3">
+                        <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Túi Xách Thủ Công</h3>
+                         <h3 class="text-sm font-medium text-gray-800 mb-1 truncate group-hover:text-accent">Thương hiệu: E</h3>
+                        <div class="flex justify-center items-baseline gap-2">
+                            <p class="text-base font-bold text-red-600">₫189.000</p>
+                            <p class="text-xs text-gray-500 line-through">₫350.000</p>
+                        </div>
+                        <button class="mt-3 w-full bg-red-600 text-white text-sm font-semibold py-2 rounded-md hover:bg-red-700 transition-colors">Mua ngay</button>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container mx-auto px-4 sm:px-6">
+            <div class="swiper promo-banner-slider rounded-lg overflow-hidden">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a href="https://example.com/page1" target="_blank">
+                            <img src="https://placehold.co/1200x400/0d6efd/ffffff?text=Ưu+Đãi+Hấp+Dẫn" alt="Banner 1" class="w-full h-auto object-cover">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="https://example.com/page2" target="_blank">
+                            <img src="https://placehold.co/1200x400/198754/ffffff?text=Sản+Phẩm+Mới" alt="Banner 2" class="w-full h-auto object-cover">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="https://example.com/page3" target="_blank">
+                            <img src="https://placehold.co/1200x400/dc3545/ffffff?text=Giảm+Giá+Cuối+Tuần" alt="Banner 3" class="w-full h-auto object-cover">
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+        
+        <section class="bg-white py-8">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Sản phẩm nổi bật</h2>
+                    <a href="#" class="bg-orange-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-orange-600 transition-colors">Xem tất cả</a>
+                </div>
+                <div class="swiper featured-products-slider relative px-10">
+                    <div id="featured-products-container" class="swiper-wrapper">
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="bg-white py-12">
+            <div class="container mx-auto px-4 sm:px-6">
+                 <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Gợi Ý Hôm Nay</h2>
+                </div>
+                <div id="suggestion-products-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-primary">Tin Tức</h2>
+                </div>
+                <div class="blog-container">
+                    <div class="blog-column">
+                        <h3 class="blog-category-title">TIN TỨC</h3>
+                        <article class="blog-post primary-post">
+                            <img src="https://placehold.co/400x250/F87171/ffffff?text=Màu+son+cho+da+ngăm" alt="Bỏ Túi Top Những Màu Son Cho Da Ngăm">
+                            <div class="post-content">
+                                <h2>Bỏ Túi Top Những Màu Son Cho Da Ngăm</h2>
+                                <p>Bạn đang sở hữu một làn da ngăm và đang gặp khó khăn trong việc lựa chọn màu son phù hợp...</p>
+                                <div class="post-meta">
+                                    <span class="brand-name">HÀNG HIỆU VIỆT</span>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/F87171/ffffff?text=Màu+neon" alt="Màu neon - Bí kíp phối đồ với màu nổi bật">
+                                <div class="post-content">
+                                    <h2>Màu neon - Bí kíp phối đồ với màu nổi bật</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/F87171/ffffff?text=Vải+Pique" alt="VẢI PIQUE - Chất liệu được ưa chuộng">
+                                <div class="post-content">
+                                    <h2>VẢI PIQUE - Chất liệu được ưa chuộng</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/F87171/ffffff?text=Thương+hiệu+Việt" alt="TOP 6 THƯƠNG HIỆU THỜI TRANG VIỆT">
+                                <div class="post-content">
+                                    <h2>TOP 6 THƯƠNG HIỆU THỜI TRANG VIỆT</h2>
+                                    <span class="post-date">Nov 26, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <div class="view-more">
+                            <a href="#">Xem thêm →</a>
+                        </div>
+                    </div>
+            
+                    <div class="blog-column">
+                        <h3 class="blog-category-title">THỜI TRANG NAM</h3>
+                        <article class="blog-post primary-post">
+                            <img src="https://placehold.co/400x250/34D399/ffffff?text=Phối+đồ+nam+mùa+đông" alt="Phối Đồ Nam Mùa Đông Cực Chất">
+                            <div class="post-content">
+                                <h2>Phối Đồ Nam Mùa Đông Cực Chất</h2>
+                                <p>Mỗi khi đông đến, nhiều cánh mày râu lại gặp khó khăn trong việc mix & match trang phục hàng ngày...</p>
+                                <div class="post-meta">
+                                    <span class="brand-name">HÀNG HIỆU VIỆT</span>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/34D399/ffffff?text=Tips+phối+boots" alt="Tips phối đồ với boots nam thêm lịch lãm">
+                                <div class="post-content">
+                                    <h2>Tips phối đồ với boots nam thêm lịch lãm</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/34D399/ffffff?text=Quần+jogger" alt="Bí kíp phối đồ với quần jogger nam">
+                                <div class="post-content">
+                                    <h2>Bí kíp phối đồ với quần jogger nam</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/34D399/ffffff?text=Áo+bomber" alt="Phối đồ với áo bomber nam khiến bạn nổi bật">
+                                <div class="post-content">
+                                    <h2>Phối đồ với áo bomber nam khiến bạn nổi bật</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <div class="view-more">
+                            <a href="#">Xem thêm →</a>
+                        </div>
+                    </div>
+
+                    <div class="blog-column">
+                        <h3 class="blog-category-title">THỜI TRANG NỮ</h3>
+                        <article class="blog-post primary-post">
+                            <img src="https://placehold.co/400x250/60A5FA/ffffff?text=Phối+đồ+với+boots+nữ" alt="Phối Đồ Với Boots Nữ Cá Tính">
+                            <div class="post-content">
+                                <h2>Phối Đồ Với Boots Nữ Cá Tính</h2>
+                                <p>Những đôi boot được xem là món đồ các cô nàng không thể thiếu để hoàn thiện phong cách...</p>
+                                <div class="post-meta">
+                                    <span class="brand-name">HÀNG HIỆU VIỆT</span>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/60A5FA/ffffff?text=Quần+jogger+nữ" alt="Cách phối đồ với quần jogger nữ đơn giản">
+                                <div class="post-content">
+                                    <h2>Cách phối đồ với quần jogger nữ đơn giản</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/60A5FA/ffffff?text=Chân+váy+dạ" alt="Mẫu chân váy dạ mùa đông xinh xắn">
+                                <div class="post-content">
+                                    <h2>Mẫu chân váy dạ mùa đông xinh xắn</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/60A5FA/ffffff?text=Phụ+nữ+30" alt="Phụ nữ tuổi 30 nên mặc gì để luôn tự tin">
+                                <div class="post-content">
+                                    <h2>Phụ nữ tuổi 30 nên mặc gì để luôn tự tin</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <div class="view-more">
+                            <a href="#">Xem thêm →</a>
+                        </div>
+                    </div>
+
+                    <div class="blog-column">
+                        <h3 class="blog-category-title">THỜI TRANG TRẺ EM</h3>
+                        <article class="blog-post primary-post">
+                            <img src="https://placehold.co/400x250/C084FC/ffffff?text=Cách+phối+đồ+bé+gái" alt="Cách Phối Đồ Cho Bé Gái Theo Xu Hướng Mới">
+                            <div class="post-content">
+                                <h2>Cách Phối Đồ Cho Bé Gái Theo Xu Hướng Mới</h2>
+                                <p>Để bé yêu nhà mình luôn xuất hiện với vẻ ngoài xinh xắn tựa nàng công chúa...</p>
+                                <div class="post-meta">
+                                    <span class="brand-name">HÀNG HIỆU VIỆT</span>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/C084FC/ffffff?text=Bé+trai+bảnh+bao" alt="Cách phối đồ cho bé trai cực bảnh bao">
+                                <div class="post-content">
+                                    <h2>Cách phối đồ cho bé trai cực bảnh bao</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/C084FC/ffffff?text=Thời+trang+tuổi+15" alt="Thời trang tuổi 15: 12+ tips phối đồ sành điệu">
+                                <div class="post-content">
+                                    <h2>Thời trang tuổi 15: 12+ tips phối đồ sành điệu</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="blog-post secondary-post">
+                            <a href="#">
+                                <img src="https://placehold.co/100x100/C084FC/ffffff?text=Bảng+size+giày" alt="Bảng size giày trẻ em chuẩn và đầy đủ nhất">
+                                <div class="post-content">
+                                    <h2>Bảng size giày trẻ em chuẩn và đầy đủ nhất</h2>
+                                    <span class="post-date">Sep 16, 2022</span>
+                                </div>
+                            </a>
+                        </article>
+                        <div class="view-more">
+                            <a href="#">Xem thêm →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </main>
+
+    <footer class="bg-primary text-white">
+        <div class="container mx-auto px-6 py-10">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-sm">
+                <div>
+                    <h3 class="font-bold mb-4 uppercase" data-lang="footer_support_title">Hỗ trợ khách hàng</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white" data-lang="footer_link_faq">Câu hỏi thường gặp</a></li>
+                        <li><a href="#" class="hover:text-white" data-lang="footer_link_returns">Chính sách đổi trả</a></li>
+                        <li><a href="#" class="hover:text-white" data-lang="footer_link_guides">Hướng dẫn mua hàng</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold mb-4 uppercase" data-lang="footer_about_title">Về HHV</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white" data-lang="footer_link_intro">Giới thiệu</a></li>
+                        <li><a href="#" class="hover:text-white" data-lang="footer_link_careers">Cơ hội việc làm</a></li>
+                        <li><a href="#" class="hover:text-white" data-lang="footer_link_policy">Chính sách & Điều khoản</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold mb-4 uppercase" data-lang="footer_partners_title">Hợp tác</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white" data-lang="footer_link_sellers">Bán hàng cùng HHV</a></li>
+                        <li><a href="#" class="hover:text-white" data-lang="footer_link_affiliate">Chương trình đối tác</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold mb-4 uppercase" data-lang="footer_social_title">Theo dõi chúng tôi</h3>
+                    <div class="flex space-x-4 mb-6">
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218 1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.884 2 12.315 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 8a3 3 0 110-6 3 3 0 010 6zm6.406-11.845a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" clip-rule="evenodd" /></svg></a>
+                    </div>
+                    <h3 class="font-bold mb-4 uppercase" data-lang="newsletter_title">Đăng ký nhận tin</h3>
+                    <form>
+                        <input type="email" data-lang-placeholder="newsletter_placeholder" placeholder="Nhập email của bạn..." class="w-full px-3 py-2 rounded-md bg-gray-700 border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
+                        <button type="submit" class="w-full mt-2 bg-accent hover:bg-accent-hover text-white font-bold py-2 px-4 rounded-md transition duration-300" data-lang="newsletter_button">Đăng Ký</button>
+                    </form>
+                </div>
+
+                <div>
+                    <h3 class="font-bold mb-4 uppercase" data-lang="footer_app_title">Tải ứng dụng</h3>
+                    <div class="flex flex-col space-y-2">
+                        <a href="#" class="bg-gray-700 hover:bg-gray-600 rounded-md p-2 flex items-center">
+                            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/qr-code.png" class="w-8 h-8 mr-2" alt="QR Code"/>
+                            <div>
+                                <p class="text-xs">QR Code</p>
+                                <p class="font-semibold text-sm">Tải ứng dụng</p>
+                            </div>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-gray-600 rounded-md p-2 flex items-center">
+                            <img src="https://img.icons8.com/ios-glyphs/60/FFFFFF/google-play.png" class="w-8 h-8 mr-2" alt="Google Play"/>
+                            <div>
+                                <p class="text-xs">GET IT ON</p>
+                                <p class="font-semibold text-sm">Google Play</p>
+                            </div>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-gray-600 rounded-md p-2 flex items-center">
+                             <img src="https://img.icons8.com/ios-filled/50/FFFFFF/mac-os.png" class="w-8 h-8 mr-2" alt="App Store"/>
+                            <div>
+                                <p class="text-xs">Download on the</p>
+                                <p class="font-semibold text-sm">App Store</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-xs">
+                <h3 class="font-bold text-white text-sm mb-2">CÔNG TY TNHH HOANGLONGDEVIL</h3>
+                <p data-lang="company_info">Địa chỉ: 123 Đường ABC, Quận 1, Thành phố Hồ Chí Minh. Mã số thuế: 0123456789</p>
+                <p class="mt-4" data-lang="copyright_new">&copy; Copyright 2022 by HOANGLONGDEVIL. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
