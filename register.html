@@ -146,6 +146,9 @@
     </style>
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v20.0&appId=YOUR_APP_ID&autoLogAppEvents=1" nonce="aBcDeFgH"></script>
+
     <div class="register-container">
         <h1>Bắt đầu ngay</h1>
         <p>Tạo tài khoản để trải nghiệm dịch vụ của chúng tôi</p>
@@ -175,12 +178,40 @@
         <div class="divider">HOẶC</div>
         <div class="social-login">
             <button class="btn btn-google"><i class="fab fa-google"></i> Google</button>
-            <button class="btn btn-facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+            <button class="btn btn-facebook" id="btn-facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
         </div>
         <p class="login-link">Bạn đã có tài khoản? <a href="login.html">Đăng nhập ngay</a></p>
     </div>
 
     <script>
+        // Khởi tạo SDK Facebook
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : 'YOUR_APP_ID', // THAY THẾ BẰNG APP ID CỦA BẠN
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v20.0'
+            });
+        };
+
+        const btnFacebook = document.getElementById('btn-facebook');
+        
+        btnFacebook.addEventListener('click', () => {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    console.log('Đăng nhập thành công!');
+                    FB.api('/me', {fields: 'name, email'}, function(response) {
+                        console.log('Thông tin người dùng:', response);
+                        // Ở đây bạn có thể gửi dữ liệu này về server để xử lý đăng ký
+                        alert('Đăng ký Facebook thành công với tên: ' + response.name);
+                        // Ví dụ: window.location.href = '/dashboard';
+                    });
+                } else {
+                    console.log('Người dùng hủy đăng nhập hoặc không cho phép.');
+                }
+            }, {scope: 'public_profile,email'});
+        });
+    
         document.addEventListener('DOMContentLoaded', () => {
             const registerForm = document.getElementById('register-form');
             const submitBtn = document.getElementById('submit-btn');
