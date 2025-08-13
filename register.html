@@ -91,7 +91,6 @@
             justify-content: center;
         }
         
-        /* THAY ĐỔI: CSS cho phần Điều khoản */
         .terms-group {
             display: flex;
             align-items: flex-start;
@@ -184,10 +183,9 @@
     </div>
 
     <script>
-        // Khởi tạo SDK Facebook
         window.fbAsyncInit = function() {
             FB.init({
-                appId      : 'YOUR_APP_ID', // THAY THẾ BẰNG APP ID CỦA BẠN
+                appId      : 'YOUR_APP_ID',
                 cookie     : true,
                 xfbml      : true,
                 version    : 'v20.0'
@@ -196,52 +194,47 @@
 
         const btnFacebook = document.getElementById('btn-facebook');
         
-        btnFacebook.addEventListener('click', () => {
-            FB.login(function(response) {
-                if (response.authResponse) {
-                    console.log('Đăng nhập thành công!');
-                    FB.api('/me', {fields: 'name, email'}, function(response) {
-                        console.log('Thông tin người dùng:', response);
-                        // Ở đây bạn có thể gửi dữ liệu này về server để xử lý đăng ký
-                        alert('Đăng ký Facebook thành công với tên: ' + response.name);
-                        // Ví dụ: window.location.href = '/dashboard';
-                    });
-                } else {
-                    console.log('Người dùng hủy đăng nhập hoặc không cho phép.');
-                }
-            }, {scope: 'public_profile,email'});
-        });
+        if (btnFacebook) {
+            btnFacebook.addEventListener('click', () => {
+                FB.login(function(response) {
+                    if (response.authResponse) {
+                        console.log('Đăng ký thành công qua Facebook!');
+                        FB.api('/me', {fields: 'name, email'}, function(response) {
+                            console.log('Thông tin người dùng:', response);
+                            alert('Đăng ký tài khoản thành công với tên: ' + response.name);
+                        });
+                    } else {
+                        console.log('Người dùng hủy đăng ký hoặc không cho phép.');
+                    }
+                }, {scope: 'public_profile,email'});
+            });
+        }
     
         document.addEventListener('DOMContentLoaded', () => {
             const registerForm = document.getElementById('register-form');
             const submitBtn = document.getElementById('submit-btn');
             const termsCheckbox = document.getElementById('terms-checkbox');
             const formMessage = document.getElementById('form-message');
-            // ... (các biến khác giữ nguyên)
 
-            // THAY ĐỔI: Xử lý kích hoạt nút "Tạo Tài Khoản"
             termsCheckbox.addEventListener('change', () => {
                 submitBtn.disabled = !termsCheckbox.checked;
             });
             
-            // ... (logic gửi OTP giữ nguyên)
             const btnSendOtp = document.getElementById('btn-send-otp');
             const otpInput = document.getElementById('otp');
             btnSendOtp.addEventListener('click', () => {
-                // ...
+                // Logic gửi OTP
             });
 
             registerForm.addEventListener('submit', (event) => {
                 event.preventDefault(); 
                 
-                // THAY ĐỔI: Kiểm tra lại checkbox trước khi gửi, dù nút đã được kích hoạt
                 if (!termsCheckbox.checked) {
                     formMessage.textContent = 'Bạn phải đồng ý với các điều khoản để tiếp tục.';
                     formMessage.className = 'message error';
                     return;
                 }
                 
-                // ... (logic kiểm tra mật khẩu, recaptcha, và gửi form giữ nguyên)
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirm-password').value;
                 formMessage.textContent = '';
@@ -267,7 +260,7 @@
                     registerForm.reset();
                     grecaptcha.reset();
                     otpInput.classList.add('hidden');
-                    submitBtn.disabled = true; // Vô hiệu hóa lại nút sau khi thành công
+                    submitBtn.disabled = true;
                 }, 1500);
             });
         });

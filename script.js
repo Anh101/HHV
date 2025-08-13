@@ -1,5 +1,4 @@
 // --- MEGA MENU FUNCTIONS (GLOBAL SCOPE) ---
-// Các hàm này cần ở phạm vi toàn cục để onmouseover/onmouseleave trong HTML có thể gọi
 function showMegaMenu() {
     const menu = document.getElementById('level2');
     if (menu) menu.style.display = 'flex';
@@ -11,12 +10,55 @@ function hideMegaMenu() {
 }
 
 
-// Chờ cho toàn bộ nội dung trang được tải xong
 document.addEventListener('DOMContentLoaded', function () {
+    // --- Khởi tạo SDK Facebook ---
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : 'YOUR_APP_ID', // THAY THẾ BẰNG APP ID CỦA BẠN
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v20.0'
+        });
+    };
 
-    // --- KHỞI TẠO CÁC THÀNH PHẦN ---
+    // Xử lý sự kiện click cho nút Facebook trong trang đăng nhập
+    const loginBtnFacebook = document.getElementById('btn-facebook');
+    if (loginBtnFacebook) {
+        loginBtnFacebook.addEventListener('click', () => {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    console.log('Đăng nhập thành công!');
+                    FB.api('/me', {fields: 'name, email'}, function(response) {
+                        console.log('Thông tin người dùng:', response);
+                        alert('Đăng nhập Facebook thành công với tên: ' + response.name);
+                    });
+                } else {
+                    console.log('Người dùng hủy đăng nhập hoặc không cho phép.');
+                }
+            }, {scope: 'public_profile,email'});
+        });
+    }
 
-    // Xử lý menu mobile
+    // Xử lý sự kiện click cho nút Facebook trong trang đăng ký
+    const registerBtnFacebook = document.getElementById('btn-facebook');
+    if (registerBtnFacebook) {
+        registerBtnFacebook.addEventListener('click', () => {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    console.log('Đăng ký thành công qua Facebook!');
+                    FB.api('/me', {fields: 'name, email'}, function(response) {
+                        console.log('Thông tin người dùng:', response);
+                        alert('Đăng ký tài khoản thành công với tên: ' + response.name);
+                    });
+                } else {
+                    console.log('Người dùng hủy đăng ký hoặc không cho phép.');
+                }
+            }, {scope: 'public_profile,email'});
+        });
+    }
+
+    // --- KHỞI TẠO CÁC THÀNH PHẦN KHÁC (GIỮ NGUYÊN) ---
+
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
@@ -25,11 +67,10 @@ document.addEventListener('DOMContentLoaded', function () {
             mobileMenu.classList.toggle('hidden');
         });
     }
-
-    // Khởi tạo Swiper cho slider thương hiệu (được thêm lại)
+    
     try {
         new Swiper(".brand-slider", {
-            slidesPerView: 3, // Mặc định cho màn hình nhỏ (mobile)
+            slidesPerView: 3, 
             spaceBetween: 10,
             grid: {
                 rows: 2,
@@ -280,31 +321,6 @@ document.addEventListener('DOMContentLoaded', function () {
             "company_info": "Địa chỉ: 123 Đường ABC, Quận 1, Thành phố Hồ Chí Minh. Mã số thuế: 0123456789",
             "copyright_new": "© Copyright 2022 by HOANGLONGDEVIL. Đã đăng ký bản quyền."
         },
-        // "en": {
-        //     "contact_link": "Contact",
-        //     "search_placeholder": "Search for products...",
-        //     "menu_home": "Home",
-        //     "menu_products": "Products",
-        //     "menu_collections": "Industry",
-        //     "footer_support_title": "Customer Support",
-        //     "footer_link_faq": "FAQ",
-        //     "footer_link_returns": "Return Policy",
-        //     "footer_link_guides": "Shopping Guides",
-        //     "footer_about_title": "About HHV",
-        //     "footer_link_intro": "About Us",
-        //     "footer_link_careers": "Careers",
-        //     "footer_link_policy": "Policy & Terms",
-        //     "footer_partners_title": "Partnership",
-        //     "footer_link_sellers": "Sell on HHV",
-        //     "footer_link_affiliate": "Affiliate Program",
-        //     "footer_social_title": "Follow Us",
-        //     "newsletter_title": "Subscribe to our Newsletter",
-        //     "newsletter_placeholder": "Enter your email...",
-        //     "newsletter_button": "Subscribe",
-        //     "footer_app_title": "Download App",
-        //     "company_info": "Address: 123 ABC Street, District 1, Ho Chi Minh City. Tax ID: 0123456789",
-        //     "copyright_new": "© Copyright 2022 by HOANGLONGDEVIL. All rights reserved."
-        // }
     };
 
     const languageSwitchers = document.querySelectorAll('.lang-switcher');
@@ -759,26 +775,21 @@ document.addEventListener('DOMContentLoaded', function () {
        console.error("Swiper for promo banner initialization failed:", e);
     }
     
-    // Giả lập trạng thái đăng nhập
-    const isLoggedIn = true; // Thay đổi thành 'false' để mô phỏng chưa đăng nhập
-
+    const isLoggedIn = true;
     const notificationWrapper = document.getElementById('notification-wrapper');
     const notificationBadge = document.getElementById('notification-badge');
     const notificationDropdown = document.getElementById('notification-dropdown');
 
     if (notificationWrapper) {
         if (isLoggedIn) {
-            // Nếu đã đăng nhập, hiển thị wrapper thông báo
             notificationWrapper.classList.remove('hidden');
         } else {
-            // Nếu chưa, đảm bảo nó vẫn ẩn
             notificationWrapper.classList.add('hidden');
         }
     }
 
     if (notificationDropdown) {
         notificationDropdown.addEventListener('mouseover', () => {
-            // Ẩn dấu chấm đỏ khi người dùng di chuột vào menu thông báo
             if (notificationBadge) {
                 notificationBadge.classList.add('hidden');
             }

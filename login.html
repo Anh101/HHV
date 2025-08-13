@@ -83,7 +83,6 @@
             justify-content: center;
         }
 
-        /* THAY ĐỔI: CSS cho phần tùy chọn thêm */
         .form-options {
             display: flex;
             justify-content: space-between;
@@ -186,39 +185,37 @@
     </div>
 
     <script>
-        // Khởi tạo SDK Facebook
         window.fbAsyncInit = function() {
             FB.init({
-                appId      : 'YOUR_APP_ID', // THAY THẾ BẰNG APP ID CỦA BẠN
+                appId      : 'YOUR_APP_ID',
                 cookie     : true,
                 xfbml      : true,
                 version    : 'v20.0'
             });
         };
 
-        // Lấy nút Facebook
         const btnFacebook = document.getElementById('btn-facebook');
         
-        btnFacebook.addEventListener('click', () => {
-            FB.login(function(response) {
-                if (response.authResponse) {
-                    console.log('Đăng nhập thành công!');
-                    FB.api('/me', {fields: 'name, email'}, function(response) {
-                        console.log('Thông tin người dùng:', response);
-                        // Ở đây bạn có thể gửi dữ liệu này về server để xử lý đăng nhập
-                        alert('Đăng nhập Facebook thành công với tên: ' + response.name);
-                        // Ví dụ: window.location.href = '/dashboard';
-                    });
-                } else {
-                    console.log('Người dùng hủy đăng nhập hoặc không cho phép.');
-                }
-            }, {scope: 'public_profile,email'});
-        });
+        if (btnFacebook) {
+            btnFacebook.addEventListener('click', () => {
+                FB.login(function(response) {
+                    if (response.authResponse) {
+                        console.log('Đăng nhập thành công!');
+                        FB.api('/me', {fields: 'name, email'}, function(response) {
+                            console.log('Thông tin người dùng:', response);
+                            alert('Đăng nhập Facebook thành công với tên: ' + response.name);
+                        });
+                    } else {
+                        console.log('Người dùng hủy đăng nhập hoặc không cho phép.');
+                    }
+                }, {scope: 'public_profile,email'});
+            });
+        }
         
         document.getElementById('login-form').addEventListener('submit', (event) => {
             event.preventDefault();
             const formMessage = document.getElementById('form-message');
-            formMessage.textContent = ''; 
+            formMessage.textContent = '';
 
             const recaptchaResponse = grecaptcha.getResponse();
             if (!recaptchaResponse) {
