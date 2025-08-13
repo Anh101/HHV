@@ -174,7 +174,7 @@
             <button class="btn btn-google">
                 <i class="fab fa-google"></i> Google
             </button>
-            <button class="btn btn-facebook" id="btn-facebook">
+            <button class="btn btn-facebook" id="btn-facebook" onclick="loginWithFacebook()">
                 <i class="fab fa-facebook-f"></i> Facebook
             </button>
         </div>
@@ -194,28 +194,24 @@
             });
         };
 
-        const btnFacebook = document.getElementById('btn-facebook');
-        
-        if (btnFacebook) {
-            btnFacebook.addEventListener('click', () => {
-                FB.login(function(response) {
-                    if (response.authResponse) {
-                        console.log('Đăng nhập thành công!');
-                        FB.api('/me', {fields: 'name, email'}, function(response) {
-                            console.log('Thông tin người dùng:', response);
-                            alert('Đăng nhập Facebook thành công với tên: ' + response.name);
-                        });
-                    } else {
-                        console.log('Người dùng hủy đăng nhập hoặc không cho phép.');
-                    }
-                }, {scope: 'public_profile,email'});
-            });
+        function loginWithFacebook() {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    console.log('Đăng nhập thành công!');
+                    FB.api('/me', {fields: 'name, email'}, function(response) {
+                        console.log('Thông tin người dùng:', response);
+                        alert('Đăng nhập Facebook thành công với tên: ' + response.name);
+                    });
+                } else {
+                    console.log('Người dùng hủy đăng nhập hoặc không cho phép.');
+                }
+            }, {scope: 'public_profile,email'});
         }
-        
+
         document.getElementById('login-form').addEventListener('submit', (event) => {
             event.preventDefault();
             const formMessage = document.getElementById('form-message');
-            formMessage.textContent = '';
+            formMessage.textContent = ''; 
 
             const recaptchaResponse = grecaptcha.getResponse();
             if (!recaptchaResponse) {

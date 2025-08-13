@@ -11,54 +11,9 @@ function hideMegaMenu() {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    // --- Khởi tạo SDK Facebook ---
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : 'YOUR_APP_ID', // THAY THẾ BẰNG APP ID CỦA BẠN
-            cookie     : true,
-            xfbml      : true,
-            version    : 'v20.0'
-        });
-    };
+    // --- Khởi tạo các thành phần khác (giữ nguyên) ---
 
-    // Xử lý sự kiện click cho nút Facebook trong trang đăng nhập
-    const loginBtnFacebook = document.getElementById('btn-facebook');
-    if (loginBtnFacebook) {
-        loginBtnFacebook.addEventListener('click', () => {
-            FB.login(function(response) {
-                if (response.authResponse) {
-                    console.log('Đăng nhập thành công!');
-                    FB.api('/me', {fields: 'name, email'}, function(response) {
-                        console.log('Thông tin người dùng:', response);
-                        alert('Đăng nhập Facebook thành công với tên: ' + response.name);
-                    });
-                } else {
-                    console.log('Người dùng hủy đăng nhập hoặc không cho phép.');
-                }
-            }, {scope: 'public_profile,email'});
-        });
-    }
-
-    // Xử lý sự kiện click cho nút Facebook trong trang đăng ký
-    const registerBtnFacebook = document.getElementById('btn-facebook');
-    if (registerBtnFacebook) {
-        registerBtnFacebook.addEventListener('click', () => {
-            FB.login(function(response) {
-                if (response.authResponse) {
-                    console.log('Đăng ký thành công qua Facebook!');
-                    FB.api('/me', {fields: 'name, email'}, function(response) {
-                        console.log('Thông tin người dùng:', response);
-                        alert('Đăng ký tài khoản thành công với tên: ' + response.name);
-                    });
-                } else {
-                    console.log('Người dùng hủy đăng ký hoặc không cho phép.');
-                }
-            }, {scope: 'public_profile,email'});
-        });
-    }
-
-    // --- KHỞI TẠO CÁC THÀNH PHẦN KHÁC (GIỮ NGUYÊN) ---
-
+    // Xử lý menu mobile
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
@@ -474,7 +429,533 @@ document.addEventListener('DOMContentLoaded', function () {
               { name: "Đồ lưu niệm mang bản sắc Việt", children: ["Tranh – tượng – đồ mỹ nghệ", "Quà tặng Tết – lễ truyền thống"] }
             ] 
           }
-        ];
+    ];
+
+    const level2Container = document.getElementById('level2Container');
+    const level3Container = document.getElementById('level3');
+    const level4Container = document.getElementById('level4');
+    const brandImageColumn = document.getElementById('brand-image-column');
+
+    function setActive(container, activeElement) {
+        if (!container) return;
+        Array.from(container.children).forEach(child => child.classList.remove('active'));
+        if (activeElement) {
+            activeElement.classList.add('active');
+        }
+    }
+
+    function renderLevel2() {
+        if (!level2Container) return;
+        level2Container.innerHTML = '';
+        menuData.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'menu-item';
+            div.textContent = item.name;
+            div.onmouseover = () => renderLevel3(index);
+            level2Container.appendChild(div);
+        });
+        if (menuData.length > 0) {
+            renderLevel3(0);
+        }
+    }
+
+    function renderLevel3(index) {
+        if (!level2Container || !level3Container || !brandImageColumn) return;
+        setActive(level2Container, level2Container.children[index]);
+        
+        brandImageColumn.innerHTML = '';
+        const images = menuData[index].brandImages;
+        if (images && images.length > 0) {
+            images.forEach(imageUrl => {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = "Brand Image";
+                brandImageColumn.appendChild(img);
+            });
+        }
+        
+        level3Container.innerHTML = '';
+        if(level4Container) level4Container.innerHTML = '';
+        const level3List = menuData[index].children;
+
+        level3List.forEach((child, childIndex) => {
+            const div = document.createElement('div');
+            div.className = 'menu-item';
+            div.textContent = child.name;
+            div.onmouseover = () => renderLevel4(index, childIndex);
+            level3Container.appendChild(div);
+        });
+
+        if (level3List.length > 0) {
+            renderLevel4(index, 0);
+        }
+    }
+
+    function renderLevel4(index2, index3) {
+        if (!level3Container || !level4Container) return;
+        setActive(level3Container, level3Container.children[index3]);
+        
+        level4Container.innerHTML = '';
+        const level4List = menuData[index2]?.children[index3]?.children || [];
+
+        level4List.forEach(name => {
+            const div = document.createElement('div');
+            div.className = 'menu-item';
+            div.textContent = name;
+            div.onclick = function() {
+                console.log(`Chuyển đến trang cho: ${name}`);
+            };
+            level4Container.appendChild(div);
+        });
+    }
+
+    renderLevel2();
+
+
+    // --- HỆ THỐNG ĐA NGÔN NGỮ ---
+    const translations = {
+        "vi": {
+            "contact_link": "Liên hệ",
+            "search_placeholder": "Tìm kiếm sản phẩm...",
+            "menu_home": "Trang Chủ",
+            "menu_products": "Sản Phẩm",
+            "menu_collections": "Ngành hàng",
+            "footer_support_title": "Hỗ trợ khách hàng",
+            "footer_link_faq": "Câu hỏi thường gặp",
+            "footer_link_returns": "Chính sách đổi trả",
+            "footer_link_guides": "Hướng dẫn mua hàng",
+            "footer_about_title": "Về HHV",
+            "footer_link_intro": "Giới thiệu",
+            "footer_link_careers": "Cơ hội việc làm",
+            "footer_link_policy": "Chính sách & Điều khoản",
+            "footer_partners_title": "Hợp tác",
+            "footer_link_sellers": "Bán hàng cùng HHV",
+            "footer_link_affiliate": "Chương trình đối tác",
+            "footer_social_title": "Theo dõi chúng tôi",
+            "newsletter_title": "Đăng ký nhận tin",
+            "newsletter_placeholder": "Nhập email của bạn...",
+            "newsletter_button": "Đăng Ký",
+            "footer_app_title": "Tải ứng dụng",
+            "company_info": "Địa chỉ: 123 Đường ABC, Quận 1, Thành phố Hồ Chí Minh. Mã số thuế: 0123456789",
+            "copyright_new": "© Copyright 2022 by HOANGLONGDEVIL. Đã đăng ký bản quyền."
+        },
+    };
+
+    const languageSwitchers = document.querySelectorAll('.lang-switcher');
+
+    const setLanguage = (lang) => {
+        document.querySelectorAll('[data-lang]').forEach(element => {
+            const key = element.getAttribute('data-lang');
+            if (translations[lang] && translations[lang][key]) {
+                element.innerText = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-lang-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-lang-placeholder');
+            if (translations[lang] && translations[lang][key]) {
+                element.placeholder = translations[lang][key];
+            }
+        });
+
+        document.documentElement.lang = lang;
+        localStorage.setItem('language', lang);
+
+        languageSwitchers.forEach(switcher => {
+            if (switcher.getAttribute('data-lang-set') === lang) {
+                switcher.classList.add('active');
+            } else {
+                switcher.classList.remove('active');
+            }
+        });
+    };
+
+    languageSwitchers.forEach(switcher => {
+        switcher.addEventListener('click', (e) => {
+            const selectedLang = e.target.getAttribute('data-lang-set');
+            setLanguage(selectedLang);
+        });
+    });
+    
+    const savedLang = localStorage.getItem('language') || (navigator.language.startsWith('vi') ? 'vi' : 'en');
+    setLanguage(savedLang);
+
+    // --- SCRIPT FOR NEW BODY CONTENT (FROM BODY 1) ---
+    try {
+        const bodyMenuData = [
+          {
+            name: "Thời trang Việt",
+            brandImages: [ "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+1", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+2", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+3", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+4", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+5", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+6" ],
+            children: [
+              { name: "Thời trang Nam", children: ["Áo sơ mi, áo polo, áo thun", "Áo polo, Tshirt", "Quần âu, kaki, jeans, short" , "Áo khoác", "Giày dép da", " Vlazer, vest, Comlpe", "Sịp, Đùi", "Giày dép thể thao", "Túi, cặp, Ví da", "Phụ Kiện thời trang"] },
+              { name: "Thời trang Nữ", children: ["Váy liền, Đầm công sở", "Đầm dạo phố, Đầm dự tiệc", "Đầm maxi, Váy hai dây mùa hè", "Áo dài Việt", "Áo công sơ", "Quần culottes – quần suông", "Chân váy, Quần short nữ", "Đồ mặc nhà cao cấp", "Túi xách tay – túi đeo chéo", "Giày cao gót", "Giày búp bê – giày lười nữ", "Dép sandal nữ", "Ví nữ, phụ kiện thời trang"] },
+              { name: "Thời trang Trẻ em", children: ["Áo sơ mi, thun bé trai", "Quần các loại cho bé trai", "Áo khoác , áo gió bé trai", "Bộ đồ bé trai (set áo + quần)", "Váy đầm cho bé gái", "Áo thun, áo kiểu bé gái", "Chân váy, quần bé gái", "Áo khoác – cardigan bé gái", "Bộ đồ bé gái (set áo + váy/quần)"] },
+              { name: "Thời trang Thể thao", children: ["Giày thể thao nam – nữ", "Giày chạy bộ – giày cầu lông", "Dép thể thao – dép đi phòng tập", "Nón thể thao – nón lưỡi trai", "Vớ thể thao – khăn – băng đô", "Balo thể thao – túi đựng giày – túi gym"] },
+              { name: "Thời trang theo Mùa", children: ["Thời trang Mùa Hè", "Thời trang Mùa Đông", "Trang phục Lễ hội – Tết"] },
+              { name: "Thời trang tặng Bố", children: ["Áo sơ mi dài tay", "Áo polo", "Quần âu, quần âu vải", "Áo len cổ lọ", "Áo khoác vest", "Cà vạt", "Thắt lưng da", "Đồng hồ, Mũ len"] },
+              { name: "Thời trang tặng Mẹ", children: ["Váy liền", "Áo blouse", "Chân váy midi", "Áo len nhẹ", "Áo khoác dáng dài", "Khăn lụa, Khăn choàng", "Túi xách tay", "Trang sức (bông tai, vòng cổ)"] },
+              { name: "Trang phục dân tộc", children: ["Áo dài thiết kế cao cấp", "Áo tứ thân - Lễ hội", "Áo bà ba cao cấp - Miền Tây", "Váy yếm và Áo yếm thiết kế", "Khăn vấn và phụ kiện đầu truyền thống", "Nón lá thủ công - Làng nghề", "Trang phục dân tộc thiểu số - Dệt tay", "Giày vải thổ cẩm - Dệt thủ công", "Set quà tặng trang phục dân tộc - Bản giới hạn"] }
+            ],
+          },
+          { 
+            name: "Gia dụng & Đời sống Việt", 
+            brandImages: [ "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G1", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G2", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G3", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G4", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G5", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G6" ],
+            children: [
+              { name: "Đồ dùng nhà bếp cao cấp", children: ["Nồi chảo", "Dụng cụ pha trà, cà phê", "Bình thủy tinh, bình giữ nhiệt"] },
+              { name: "Đồ nội thất nhỏ", children: ["Đèn trang trí", "Tranh treo tường", "Thảm trang trí"] },
+              { name: "Tiện ích sống hiện đại", children: ["Máy lọc không khí", "Máy xay, ép chậm", "Thiết bị cảm ứng, điều khiển thông minh"] }
+            ] 
+          },
+          { 
+            name: "Đặc sản vùng miền – Ẩm thực truyền thống", 
+            brandImages: [ "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D1", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D2", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D3", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D4", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D5", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D6" ],
+            children: [
+              { name: "Đặc sản nước chấm – gia vị", children: ["Nước mắm truyền thống", "Tương ớt – mắm nêm thủ công", "Muối chấm – muối tôm"] },
+              { name: "Bánh mứt truyền thống", children: ["Bánh cốm – bánh chưng – bánh phu thê", "Mứt gừng – mứt dừa", "Bánh đậu xanh – bánh in"] },
+              { name: "Đặc sản vùng miền", children: ["Chè đặc sản vùng núi", "Mật ong rừng – sâm núi", "Trà thảo mộc đặc sản"] }
+            ] 
+          },
+          { 
+            name: "Thực phẩm hữu cơ & Sống xanh", 
+            brandImages: [ "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T1", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T2", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T3", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T4", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T5", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T6" ],
+            children: [
+              { name: "Rau củ, ngũ cốc hữu cơ", children: ["Hạt điều – hạt mắc ca – hạt sen", "Gạo hữu cơ – gạo lứt", "Tinh bột nghệ – bột rau"] },
+              { name: "Đồ uống tốt cho sức khỏe", children: ["Nước detox – nước ép lạnh", "Trà hoa – trà thảo dược", "Giấm trái cây – mật ong"] },
+              { name: "Đồ ăn chay – ăn kiêng", children: ["Thực phẩm low-carb – keto", "Đồ ăn chay chế biến sẵn"] }
+            ] 
+          },
+          { 
+            name: "Mỹ phẩm – Chăm sóc cá nhân", 
+            brandImages: [ "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M1", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M2", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M3", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M4", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M5", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M6" ],
+            children: [
+              { name: "Dưỡng da – làm sạch tự nhiên", children: ["Sữa rửa mặt – nước hoa hồng", "Mặt nạ – serum thảo dược", "Kem dưỡng ẩm – dưỡng trắng"] },
+              { name: "Dầu gội, chăm sóc tóc", children: ["Dầu gội bồ kết – thảo mộc", "Tinh dầu dưỡng tóc – serum"] },
+              { name: "Sản phẩm spa tại nhà", children: ["Muối tắm – xông hơi", "Tinh dầu – đá muối"] }
+            ] 
+          },
+          { 
+            name: "Quà tặng – Doanh nghiệp – Văn hoá", 
+            brandImages: [ "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q1", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q2", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q3", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q4", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q5", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q6" ],
+            children: [
+              { name: "Quà Tết – Lễ tặng sang trọng", children: ["Giỏ quà đặc sản", "Hộp quà thảo dược", "Set quà trà – bánh – mứt"] },
+              { name: "Đồ lưu niệm văn hoá", children: ["Tranh – tượng gỗ", "Bộ thư pháp – sổ tay"] },
+              { name: "Quà doanh nghiệp cá nhân hoá", children: ["Quà khắc tên – in logo", "Set quà ký ức văn hoá"] }
+            ] 
+          },
+          { 
+            name: "Y học cổ truyền – Phục hồi sức khỏe", 
+            brandImages: [ "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y1", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y2", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y3", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y4", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y5", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y6" ],
+            children: [
+              { name: "Thảo dược – thuốc Nam", children: ["Cao lá – cao xoa – cao dán", "Trà dược – ngâm rượu", "Bột thảo dược uống"] },
+              { name: "Phục hồi thể chất – xương khớp", children: ["Dụng cụ massage – đá nóng", "Đai lưng – chườm nóng thảo mộc", "Xông hơi – xông thảo dược"] }
+            ] 
+          },
+          { 
+            name: "Thủ công mỹ nghệ – Làng nghề", 
+            brandImages: [ "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC1", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC2", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC3", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC4", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC5", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC6" ],
+            children: [
+              { name: "Gốm sứ – Mây tre – Sơn mài", children: ["Bình gốm – chén bát", "Giỏ tre – rổ tre", "Tranh sơn mài – hộp sơn mài"] },
+              { name: "Trang trí nghệ thuật", children: ["Tranh treo – tượng nhỏ", "Đèn ngủ – đèn bàn thủ công"] },
+              { name: "Đồ dùng hàng ngày mỹ nghệ", children: ["Cốc sứ – khay trà – hộp gỗ"] }
+            ] 
+          },
+          { 
+            name: "Dụng cụ & Thiết bị thể thao", 
+            brandImages: [ "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT1", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT2", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT3", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT4", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT5", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT6" ],
+            children: [
+              { name: "Yoga – Thiền – Fitness tại nhà", children: ["Thảm yoga – gạch yoga", "Bóng tập – dây kháng lực", "Ghế thiền – gối ngồi"] },
+              { name: "Thể thao ngoài trời", children: ["Dụng cụ cầu lông – bóng bàn", "Dụng cụ đi bộ – trekking"] }
+            ] 
+          },
+          { 
+            name: "Sản phẩm handmade – Sáng tạo Việt", 
+            brandImages: [ "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM1", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM2", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM3", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM4", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM5", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM6" ],
+            children: [
+              { name: "Đồ trang trí sáng tạo", children: ["Đèn giấy – tranh cắt giấy", "Bình hoa vải – phụ kiện decor"] },
+              { name: "Phụ kiện cá nhân handmade", children: ["Túi vải – ví da thủ công", "Trang sức làm tay – phụ kiện gỗ"] },
+              { name: "Đồ dùng sáng tạo", children: ["Sổ tay vẽ tay – bookmark – lịch đứng"] }
+            ] 
+          },
+          { 
+            name: "Đồ chơi – Quà tặng trẻ em", 
+            brandImages: [ "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC1", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC2", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC3", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC4", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC5", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC6" ],
+            children: [
+              { name: "Đồ chơi an toàn Việt", children: ["Bộ đồ chơi gỗ – xếp hình", "Đồ chơi lắp ráp – đồ chơi trí tuệ"] },
+              { name: "Quà tặng sinh nhật, trung thu", children: ["Lồng đèn giấy – đồ thủ công", "Set vẽ – tô tượng – đồ chơi giáo dục"] }
+            ] 
+          },
+          { 
+            name: "Sản phẩm cho người Việt xa quê – Việt kiều", 
+            brandImages: [ "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK1", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK2", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK3", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK4", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK5", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK6" ],
+            children: [
+              { name: "Đặc sản quê nhà tiện gửi đi xa", children: ["Đặc sản khô – đóng hộp", "Hộp quà truyền thống", "Thực phẩm dễ bảo quản – gửi xa"] },
+              { name: "Đồ lưu niệm mang bản sắc Việt", children: ["Tranh – tượng – đồ mỹ nghệ", "Quà tặng Tết – lễ truyền thống"] }
+            ] 
+          }
+    ];
+
+    const level2Container = document.getElementById('level2Container');
+    const level3Container = document.getElementById('level3');
+    const level4Container = document.getElementById('level4');
+    const brandImageColumn = document.getElementById('brand-image-column');
+
+    function setActive(container, activeElement) {
+        if (!container) return;
+        Array.from(container.children).forEach(child => child.classList.remove('active'));
+        if (activeElement) {
+            activeElement.classList.add('active');
+        }
+    }
+
+    function renderLevel2() {
+        if (!level2Container) return;
+        level2Container.innerHTML = '';
+        menuData.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'menu-item';
+            div.textContent = item.name;
+            div.onmouseover = () => renderLevel3(index);
+            level2Container.appendChild(div);
+        });
+        if (menuData.length > 0) {
+            renderLevel3(0);
+        }
+    }
+
+    function renderLevel3(index) {
+        if (!level2Container || !level3Container || !brandImageColumn) return;
+        setActive(level2Container, level2Container.children[index]);
+        
+        brandImageColumn.innerHTML = '';
+        const images = menuData[index].brandImages;
+        if (images && images.length > 0) {
+            images.forEach(imageUrl => {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = "Brand Image";
+                brandImageColumn.appendChild(img);
+            });
+        }
+        
+        level3Container.innerHTML = '';
+        if(level4Container) level4Container.innerHTML = '';
+        const level3List = menuData[index].children;
+
+        level3List.forEach((child, childIndex) => {
+            const div = document.createElement('div');
+            div.className = 'menu-item';
+            div.textContent = child.name;
+            div.onmouseover = () => renderLevel4(index, childIndex);
+            level3Container.appendChild(div);
+        });
+
+        if (level3List.length > 0) {
+            renderLevel4(index, 0);
+        }
+    }
+
+    function renderLevel4(index2, index3) {
+        if (!level3Container || !level4Container) return;
+        setActive(level3Container, level3Container.children[index3]);
+        
+        level4Container.innerHTML = '';
+        const level4List = menuData[index2]?.children[index3]?.children || [];
+
+        level4List.forEach(name => {
+            const div = document.createElement('div');
+            div.className = 'menu-item';
+            div.textContent = name;
+            div.onclick = function() {
+                console.log(`Chuyển đến trang cho: ${name}`);
+            };
+            level4Container.appendChild(div);
+        });
+    }
+
+    renderLevel2();
+
+
+    // --- HỆ THỐNG ĐA NGÔN NGỮ ---
+    const translations = {
+        "vi": {
+            "contact_link": "Liên hệ",
+            "search_placeholder": "Tìm kiếm sản phẩm...",
+            "menu_home": "Trang Chủ",
+            "menu_products": "Sản Phẩm",
+            "menu_collections": "Ngành hàng",
+            "footer_support_title": "Hỗ trợ khách hàng",
+            "footer_link_faq": "Câu hỏi thường gặp",
+            "footer_link_returns": "Chính sách đổi trả",
+            "footer_link_guides": "Hướng dẫn mua hàng",
+            "footer_about_title": "Về HHV",
+            "footer_link_intro": "Giới thiệu",
+            "footer_link_careers": "Cơ hội việc làm",
+            "footer_link_policy": "Chính sách & Điều khoản",
+            "footer_partners_title": "Hợp tác",
+            "footer_link_sellers": "Bán hàng cùng HHV",
+            "footer_link_affiliate": "Chương trình đối tác",
+            "footer_social_title": "Theo dõi chúng tôi",
+            "newsletter_title": "Đăng ký nhận tin",
+            "newsletter_placeholder": "Nhập email của bạn...",
+            "newsletter_button": "Đăng Ký",
+            "footer_app_title": "Tải ứng dụng",
+            "company_info": "Địa chỉ: 123 Đường ABC, Quận 1, Thành phố Hồ Chí Minh. Mã số thuế: 0123456789",
+            "copyright_new": "© Copyright 2022 by HOANGLONGDEVIL. Đã đăng ký bản quyền."
+        },
+    };
+
+    const languageSwitchers = document.querySelectorAll('.lang-switcher');
+
+    const setLanguage = (lang) => {
+        document.querySelectorAll('[data-lang]').forEach(element => {
+            const key = element.getAttribute('data-lang');
+            if (translations[lang] && translations[lang][key]) {
+                element.innerText = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-lang-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-lang-placeholder');
+            if (translations[lang] && translations[lang][key]) {
+                element.placeholder = translations[lang][key];
+            }
+        });
+
+        document.documentElement.lang = lang;
+        localStorage.setItem('language', lang);
+
+        languageSwitchers.forEach(switcher => {
+            if (switcher.getAttribute('data-lang-set') === lang) {
+                switcher.classList.add('active');
+            } else {
+                switcher.classList.remove('active');
+            }
+        });
+    };
+
+    languageSwitchers.forEach(switcher => {
+        switcher.addEventListener('click', (e) => {
+            const selectedLang = e.target.getAttribute('data-lang-set');
+            setLanguage(selectedLang);
+        });
+    });
+    
+    const savedLang = localStorage.getItem('language') || (navigator.language.startsWith('vi') ? 'vi' : 'en');
+    setLanguage(savedLang);
+
+    // --- SCRIPT FOR NEW BODY CONTENT (FROM BODY 1) ---
+    try {
+        const bodyMenuData = [
+          {
+            name: "Thời trang Việt",
+            brandImages: [ "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+1", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+2", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+3", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+4", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+5", "https://via.placeholder.com/180x80/0d6efd/ffffff?text=Brand+6" ],
+            children: [
+              { name: "Thời trang Nam", children: ["Áo sơ mi, áo polo, áo thun", "Áo polo, Tshirt", "Quần âu, kaki, jeans, short" , "Áo khoác", "Giày dép da", " Vlazer, vest, Comlpe", "Sịp, Đùi", "Giày dép thể thao", "Túi, cặp, Ví da", "Phụ Kiện thời trang"] },
+              { name: "Thời trang Nữ", children: ["Váy liền, Đầm công sở", "Đầm dạo phố, Đầm dự tiệc", "Đầm maxi, Váy hai dây mùa hè", "Áo dài Việt", "Áo công sơ", "Quần culottes – quần suông", "Chân váy, Quần short nữ", "Đồ mặc nhà cao cấp", "Túi xách tay – túi đeo chéo", "Giày cao gót", "Giày búp bê – giày lười nữ", "Dép sandal nữ", "Ví nữ, phụ kiện thời trang"] },
+              { name: "Thời trang Trẻ em", children: ["Áo sơ mi, thun bé trai", "Quần các loại cho bé trai", "Áo khoác , áo gió bé trai", "Bộ đồ bé trai (set áo + quần)", "Váy đầm cho bé gái", "Áo thun, áo kiểu bé gái", "Chân váy, quần bé gái", "Áo khoác – cardigan bé gái", "Bộ đồ bé gái (set áo + váy/quần)"] },
+              { name: "Thời trang Thể thao", children: ["Giày thể thao nam – nữ", "Giày chạy bộ – giày cầu lông", "Dép thể thao – dép đi phòng tập", "Nón thể thao – nón lưỡi trai", "Vớ thể thao – khăn – băng đô", "Balo thể thao – túi đựng giày – túi gym"] },
+              { name: "Thời trang theo Mùa", children: ["Thời trang Mùa Hè", "Thời trang Mùa Đông", "Trang phục Lễ hội – Tết"] },
+              { name: "Thời trang tặng Bố", children: ["Áo sơ mi dài tay", "Áo polo", "Quần âu, quần âu vải", "Áo len cổ lọ", "Áo khoác vest", "Cà vạt", "Thắt lưng da", "Đồng hồ, Mũ len"] },
+              { name: "Thời trang tặng Mẹ", children: ["Váy liền", "Áo blouse", "Chân váy midi", "Áo len nhẹ", "Áo khoác dáng dài", "Khăn lụa, Khăn choàng", "Túi xách tay", "Trang sức (bông tai, vòng cổ)"] },
+              { name: "Trang phục dân tộc", children: ["Áo dài thiết kế cao cấp", "Áo tứ thân - Lễ hội", "Áo bà ba cao cấp - Miền Tây", "Váy yếm và Áo yếm thiết kế", "Khăn vấn và phụ kiện đầu truyền thống", "Nón lá thủ công - Làng nghề", "Trang phục dân tộc thiểu số - Dệt tay", "Giày vải thổ cẩm - Dệt thủ công", "Set quà tặng trang phục dân tộc - Bản giới hạn"] }
+            ],
+          },
+          { 
+            name: "Gia dụng & Đời sống Việt", 
+            brandImages: [ "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G1", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G2", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G3", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G4", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G5", "https://via.placeholder.com/180x80/28a745/ffffff?text=Brand+G6" ],
+            children: [
+              { name: "Đồ dùng nhà bếp cao cấp", children: ["Nồi chảo", "Dụng cụ pha trà, cà phê", "Bình thủy tinh, bình giữ nhiệt"] },
+              { name: "Đồ nội thất nhỏ", children: ["Đèn trang trí", "Tranh treo tường", "Thảm trang trí"] },
+              { name: "Tiện ích sống hiện đại", children: ["Máy lọc không khí", "Máy xay, ép chậm", "Thiết bị cảm ứng, điều khiển thông minh"] }
+            ] 
+          },
+          { 
+            name: "Đặc sản vùng miền – Ẩm thực truyền thống", 
+            brandImages: [ "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D1", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D2", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D3", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D4", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D5", "https://via.placeholder.com/180x80/dc3545/ffffff?text=Brand+D6" ],
+            children: [
+              { name: "Đặc sản nước chấm – gia vị", children: ["Nước mắm truyền thống", "Tương ớt – mắm nêm thủ công", "Muối chấm – muối tôm"] },
+              { name: "Bánh mứt truyền thống", children: ["Bánh cốm – bánh chưng – bánh phu thê", "Mứt gừng – mứt dừa", "Bánh đậu xanh – bánh in"] },
+              { name: "Đặc sản vùng miền", children: ["Chè đặc sản vùng núi", "Mật ong rừng – sâm núi", "Trà thảo mộc đặc sản"] }
+            ] 
+          },
+          { 
+            name: "Thực phẩm hữu cơ & Sống xanh", 
+            brandImages: [ "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T1", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T2", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T3", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T4", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T5", "https://via.placeholder.com/180x80/198754/ffffff?text=Brand+T6" ],
+            children: [
+              { name: "Rau củ, ngũ cốc hữu cơ", children: ["Hạt điều – hạt mắc ca – hạt sen", "Gạo hữu cơ – gạo lứt", "Tinh bột nghệ – bột rau"] },
+              { name: "Đồ uống tốt cho sức khỏe", children: ["Nước detox – nước ép lạnh", "Trà hoa – trà thảo dược", "Giấm trái cây – mật ong"] },
+              { name: "Đồ ăn chay – ăn kiêng", children: ["Thực phẩm low-carb – keto", "Đồ ăn chay chế biến sẵn"] }
+            ] 
+          },
+          { 
+            name: "Mỹ phẩm – Chăm sóc cá nhân", 
+            brandImages: [ "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M1", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M2", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M3", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M4", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M5", "https://via.placeholder.com/180x80/fd7e14/ffffff?text=Brand+M6" ],
+            children: [
+              { name: "Dưỡng da – làm sạch tự nhiên", children: ["Sữa rửa mặt – nước hoa hồng", "Mặt nạ – serum thảo dược", "Kem dưỡng ẩm – dưỡng trắng"] },
+              { name: "Dầu gội, chăm sóc tóc", children: ["Dầu gội bồ kết – thảo mộc", "Tinh dầu dưỡng tóc – serum"] },
+              { name: "Sản phẩm spa tại nhà", children: ["Muối tắm – xông hơi", "Tinh dầu – đá muối"] }
+            ] 
+          },
+          { 
+            name: "Quà tặng – Doanh nghiệp – Văn hoá", 
+            brandImages: [ "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q1", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q2", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q3", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q4", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q5", "https://via.placeholder.com/180x80/6f42c1/ffffff?text=Brand+Q6" ],
+            children: [
+              { name: "Quà Tết – Lễ tặng sang trọng", children: ["Giỏ quà đặc sản", "Hộp quà thảo dược", "Set quà trà – bánh – mứt"] },
+              { name: "Đồ lưu niệm văn hoá", children: ["Tranh – tượng gỗ", "Bộ thư pháp – sổ tay"] },
+              { name: "Quà doanh nghiệp cá nhân hoá", children: ["Quà khắc tên – in logo", "Set quà ký ức văn hoá"] }
+            ] 
+          },
+          { 
+            name: "Y học cổ truyền – Phục hồi sức khỏe", 
+            brandImages: [ "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y1", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y2", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y3", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y4", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y5", "https://via.placeholder.com/180x80/d63384/ffffff?text=Brand+Y6" ],
+            children: [
+              { name: "Thảo dược – thuốc Nam", children: ["Cao lá – cao xoa – cao dán", "Trà dược – ngâm rượu", "Bột thảo dược uống"] },
+              { name: "Phục hồi thể chất – xương khớp", children: ["Dụng cụ massage – đá nóng", "Đai lưng – chườm nóng thảo mộc", "Xông hơi – xông thảo dược"] }
+            ] 
+          },
+          { 
+            name: "Thủ công mỹ nghệ – Làng nghề", 
+            brandImages: [ "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC1", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC2", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC3", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC4", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC5", "https://via.placeholder.com/180x80/757575/ffffff?text=Brand+TC6" ],
+            children: [
+              { name: "Gốm sứ – Mây tre – Sơn mài", children: ["Bình gốm – chén bát", "Giỏ tre – rổ tre", "Tranh sơn mài – hộp sơn mài"] },
+              { name: "Trang trí nghệ thuật", children: ["Tranh treo – tượng nhỏ", "Đèn ngủ – đèn bàn thủ công"] },
+              { name: "Đồ dùng hàng ngày mỹ nghệ", children: ["Cốc sứ – khay trà – hộp gỗ"] }
+            ] 
+          },
+          { 
+            name: "Dụng cụ & Thiết bị thể thao", 
+            brandImages: [ "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT1", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT2", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT3", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT4", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT5", "https://via.placeholder.com/180x80/20c997/ffffff?text=Brand+TT6" ],
+            children: [
+              { name: "Yoga – Thiền – Fitness tại nhà", children: ["Thảm yoga – gạch yoga", "Bóng tập – dây kháng lực", "Ghế thiền – gối ngồi"] },
+              { name: "Thể thao ngoài trời", children: ["Dụng cụ cầu lông – bóng bàn", "Dụng cụ đi bộ – trekking"] }
+            ] 
+          },
+          { 
+            name: "Sản phẩm handmade – Sáng tạo Việt", 
+            brandImages: [ "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM1", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM2", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM3", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM4", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM5", "https://via.placeholder.com/180x80/0dcaf0/ffffff?text=Brand+HM6" ],
+            children: [
+              { name: "Đồ trang trí sáng tạo", children: ["Đèn giấy – tranh cắt giấy", "Bình hoa vải – phụ kiện decor"] },
+              { name: "Phụ kiện cá nhân handmade", children: ["Túi vải – ví da thủ công", "Trang sức làm tay – phụ kiện gỗ"] },
+              { name: "Đồ dùng sáng tạo", children: ["Sổ tay vẽ tay – bookmark – lịch đứng"] }
+            ] 
+          },
+          { 
+            name: "Đồ chơi – Quà tặng trẻ em", 
+            brandImages: [ "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC1", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC2", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC3", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC4", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC5", "https://via.placeholder.com/180x80/ffc107/000000?text=Brand+DC6" ],
+            children: [
+              { name: "Đồ chơi an toàn Việt", children: ["Bộ đồ chơi gỗ – xếp hình", "Đồ chơi lắp ráp – đồ chơi trí tuệ"] },
+              { name: "Quà tặng sinh nhật, trung thu", children: ["Lồng đèn giấy – đồ thủ công", "Set vẽ – tô tượng – đồ chơi giáo dục"] }
+            ] 
+          },
+          { 
+            name: "Sản phẩm cho người Việt xa quê – Việt kiều", 
+            brandImages: [ "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK1", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK2", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK3", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK4", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK5", "https://via.placeholder.com/180x80/adb5bd/ffffff?text=Brand+VK6" ],
+            children: [
+              { name: "Đặc sản quê nhà tiện gửi đi xa", children: ["Đặc sản khô – đóng hộp", "Hộp quà truyền thống", "Thực phẩm dễ bảo quản – gửi xa"] },
+              { name: "Đồ lưu niệm mang bản sắc Việt", children: ["Tranh – tượng – đồ mỹ nghệ", "Quà tặng Tết – lễ truyền thống"] }
+            ] 
+          }
+    ];
         
         const categoryColumn = document.getElementById('category-column');
         const bannerContainer = document.getElementById('banner-container');
@@ -795,4 +1276,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-});
+};
