@@ -83,6 +83,7 @@
             justify-content: center;
         }
 
+        /* THAY ĐỔI: CSS cho phần tùy chọn thêm */
         .form-options {
             display: flex;
             justify-content: space-between;
@@ -137,9 +138,6 @@
     </style>
 </head>
 <body>
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v20.0&appId=YOUR_APP_ID&autoLogAppEvents=1" nonce="aBcDeFgH"></script>
-
     <div class="form-container">
         <h1>Đăng nhập</h1>
         <form id="login-form">
@@ -174,7 +172,7 @@
             <button class="btn btn-google">
                 <i class="fab fa-google"></i> Google
             </button>
-            <button class="btn btn-facebook" id="btn-facebook" onclick="loginWithFacebook()">
+            <button class="btn btn-facebook">
                 <i class="fab fa-facebook-f"></i> Facebook
             </button>
         </div>
@@ -185,33 +183,10 @@
     </div>
 
     <script>
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId      : 'YOUR_APP_ID',
-                cookie     : true,
-                xfbml      : true,
-                version    : 'v20.0'
-            });
-        };
-
-        function loginWithFacebook() {
-            FB.login(function(response) {
-                if (response.authResponse) {
-                    console.log('Đăng nhập thành công!');
-                    FB.api('/me', {fields: 'name, email'}, function(response) {
-                        console.log('Thông tin người dùng:', response);
-                        alert('Đăng nhập Facebook thành công với tên: ' + response.name);
-                    });
-                } else {
-                    console.log('Người dùng hủy đăng nhập hoặc không cho phép.');
-                }
-            }, {scope: 'public_profile,email'});
-        }
-
         document.getElementById('login-form').addEventListener('submit', (event) => {
             event.preventDefault();
             const formMessage = document.getElementById('form-message');
-            formMessage.textContent = ''; 
+            formMessage.textContent = ''; // Xóa thông báo cũ
 
             const recaptchaResponse = grecaptcha.getResponse();
             if (!recaptchaResponse) {
